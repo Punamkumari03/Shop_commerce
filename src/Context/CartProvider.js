@@ -27,16 +27,65 @@ const cartReducer = (state , action) => {
       };
       updatedItems = [...state.items];
       updatedItems[existingCartItemIndex] = updatedItem;
+      fetch(`https://crudcrud.com/api/44b19afc8c0f42f9b095ef1a6c3cbd26/products/${updatedItem._id}`,{
+        method:'PUT',
+        body:JSON.stringify({
+          id: existingCartItem.id,
+					name: existingCartItem.name,
+          description:existingCartItem.description,
+					price: existingCartItem.price,
+        }),
+        headers:{
+          "Content-Type": "application/json",
+        },
+      }).then((res)=>{
+        return res.json().then((data)=>{
+          console.log(data);
+        })
+      })
+      
     } else {
-      updatedItems = state.items.concat(action.item);
-    }
-
+      const newItem = {...action.item}
+      updatedItems = state.items.concat(newItem);
+    
+    fetch('https://crudcrud.com/api/44b19afc8c0f42f9b095ef1a6c3cbd26/products',{
+      method:'POST',
+      body:JSON.stringify({
+        newItem
+      }),
+      headers:{
+        "Content-Type": "application/json",
+      },
+    }).then((res)=>{
+      return res.json().then((data)=>{
+        console.log(data);
+      })
+    })
+  }
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
     };
   }
-
+  if (action.type === "REMOVE") {
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.id
+    );
+    const existingItem = state.items[existingCartItemIndex];
+    const updatedTotalAmount = state.totalAmount - existingItem.price;
+    let updatedItems;
+    if (existingItem.amount === 1) {
+      updatedItems = state.items.filter((item) => item.id !== action.id);
+    } else {
+      const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount
+    };
+  }
 
 
   return defaultCartState
