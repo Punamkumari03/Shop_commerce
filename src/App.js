@@ -6,6 +6,7 @@ import { useState } from "react";
 import Shirts from './components/Shirts/Shirts';
 import CartProvider from "./Context/CartProvider";
 import Cart from './components/Cart/Cart';
+import ItemProvider from "./Context/ItemProvider";
 
 
 const App = ()=> {
@@ -22,13 +23,15 @@ const App = ()=> {
   }
 
   return (
-    <CartProvider>
+    // <CartProvider>
+    <ItemProvider>
         {cartIsShown && <Cart onHideCart={hideCartHandler}></Cart>}
         <Header onShowCart={showCartHandler}></Header>
         <main>
             <Shirts></Shirts>
         </main>
-    </CartProvider>
+        </ItemProvider>
+    // </CartProvider>
   )
 }
 export default App;
