@@ -13,6 +13,7 @@ const totalAmount = cartCtx.items.reduce((totalAmount,item)=>{
   // const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
 
+
   const cartItemRemoveHandler = (id) => {
     cartCtx.removeItem(id);
   };
@@ -47,7 +48,7 @@ const totalAmount = cartCtx.items.reduce((totalAmount,item)=>{
         <button className={classes['button--alt']} onClick={props.onHideCart}>
           Close
         </button>
-        {hasItems && <button className={classes.button}>Order</button>}
+        {hasItems && <button className={classes.button} onClick={cartCtx.checkOutHandler}>Order</button>}
       </div>
     </Modal>
   );

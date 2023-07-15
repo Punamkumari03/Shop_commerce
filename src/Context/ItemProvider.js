@@ -108,11 +108,17 @@ const ItemProvider = (props) => {
       });
     }
   };
+  const checkOutHandler = () =>{
+    setcartItems([])
+    alert('Congrats! your order is successfully placed')
+  }
 
   const obj = {
     items: cartItems,
     addItem: addItemFromCartHandler,
     removeItem: removeItemFromCartHandler,
+    checkOutHandler:checkOutHandler,
+    
   };
 
   return (
